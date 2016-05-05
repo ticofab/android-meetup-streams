@@ -1,13 +1,14 @@
 Android Meetup Stream
 =====================
 
-Example app to asynchronously listen to an endless stream of events. The endpoint is the [Meetup RSPV API v2](http://www.meetup.com/meetup_api/docs/2/rsvps/).
+Example app that listen asynchronously to an endless stream of events.
+The endpoint I used is the open [Meetup RSPV API v2](http://www.meetup.com/meetup_api/docs/2/rsvps/).
 
 This example combines:
 
-* [RxJava](https://github.com/ReactiveX/RxJava) for stream manipulation,
+* [RxJava](https://github.com/ReactiveX/RxJava) for stream manipulation
 * [Retrofit](http://stackoverflow.com/questions/36603368/android-retrofit-2-rxjava-listen-to-endless-stream) for the API interface
-* [Butterknife](http://jakewharton.github.io/butterknife/) for views injection.
+* [Butterknife](http://jakewharton.github.io/butterknife/) for views injection
 
 License
 --------
