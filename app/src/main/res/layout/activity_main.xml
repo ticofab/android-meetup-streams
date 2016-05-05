@@ -15,7 +15,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="Listen to events!"/>
+        android:text="Listen to events!"
+        android:textSize="25sp"/>
 
     <Button
         android:id="@+id/enough"
@@ -23,5 +24,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/listen"
         android:layout_centerHorizontal="true"
-        android:text="Enough events!"/>
+        android:text="Enough events!"
+        android:textSize="25sp"/>
 </RelativeLayout>
