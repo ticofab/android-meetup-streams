@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
             .create(MeetupAPI.class);
 
     // flag to signal the end of our subscription
+    // this is a hack I used to get things done quick - but it isn't the way things should be done!
     Boolean mSubscribed = false;
 
     // Gson for conversion to object
