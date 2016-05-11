@@ -21,6 +21,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Streaming;
 import rx.Observable;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -42,9 +43,7 @@ public class MainActivity extends AppCompatActivity {
             .build()
             .create(MeetupAPI.class);
 
-    // flag to signal the end of our subscription
-    // this is a hack I used to get things done quick - but it isn't the way things should be done!
-    Boolean mSubscribed = false;
+    Subscription mSubs = null;
 
     // Gson for conversion to object
     Gson mGson = new GsonBuilder().create();
@@ -58,9 +57,8 @@ public class MainActivity extends AppCompatActivity {
 
     void listen() {
         // only subscribe to the stream if we're not already listening
-        if (!mSubscribed) {
-            mSubscribed = true;
-            mMeetupAPI.meetupStream()
+        if (mSubs == null || mSubs.isUnsubscribed()) {
+            mSubs = mMeetupAPI.meetupStream()
                     .subscribeOn(Schedulers.newThread())
                     .flatMap(responseBody -> events(responseBody.source()))
                     .map(item -> mGson.fromJson(item, RSVP.class))
@@ -74,16 +72,13 @@ public class MainActivity extends AppCompatActivity {
     public Observable<String> events(BufferedSource source) {
         // an observable to read events one by one
         return Observable.create(new Observable.OnSubscribe<String>() {
+
             @Override
             public void call(Subscriber<? super String> subscriber) {
+                // TODO: unsubscribe gracefully
                 try {
                     while (!source.exhausted()) {
-                        if (mSubscribed) {
-                            subscriber.onNext(source.readUtf8Line());
-                        } else {
-                            // no longer subscribed: break out of the loop
-                            break;
-                        }
+                        subscriber.onNext(source.readUtf8Line());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -101,7 +96,9 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.enough)
     void enoughClick() {
-        mSubscribed = false;
+        if (mSubs != null && !mSubs.isUnsubscribed()) {
+            mSubs.unsubscribe();
+        }
     }
 
     public class RSVP {
