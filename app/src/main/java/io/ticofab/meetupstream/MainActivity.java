@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // this class represents a RSVP
     public class RSVP {
         @SerializedName("response")
         String mResponse;
@@ -114,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // this class represents a meetup member
     public class Member {
         @SerializedName("member_name")
         String mName;
